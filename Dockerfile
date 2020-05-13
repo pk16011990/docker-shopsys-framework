@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-stretch as base
+FROM php:7.4-fpm-buster as base
 
 ARG project_root=.
 
@@ -44,12 +44,11 @@ RUN apt-get update && \
     apt-get clean
 
 # "gd" extension needs to have specified jpeg and freetype dir for jpg/jpeg images support
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 # install necessary tools for running application
 RUN docker-php-ext-install \
     bcmath \
-    calendar \
     fileinfo \
     gd \
     intl \
@@ -64,7 +63,7 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
     apt-get update && apt-get install -y postgresql-12 postgresql-client-12 && apt-get clean
 
 # install redis extension
-RUN pecl install redis-4.1.1 && \
+RUN pecl install redis-5.2.1 && \
     docker-php-ext-enable redis
 
 # install locales and switch to en_US.utf8 in order to enable UTF-8 support
