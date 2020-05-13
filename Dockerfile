@@ -49,6 +49,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # install necessary tools for running application
 RUN docker-php-ext-install \
     bcmath \
+    calendar \
     fileinfo \
     gd \
     intl \
